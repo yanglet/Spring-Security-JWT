@@ -1,6 +1,7 @@
 package com.example.jwt.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -12,7 +13,14 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor
 public class User {
+
+    public User(String username, String password, String roles) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
 
     @Id
     @GeneratedValue

@@ -1,8 +1,10 @@
 package com.example.jwt.config;
 
+import com.example.jwt.security.jwt.JwtAuthenticationFilter;
+import com.example.jwt.security.jwt.JwtAuthorizationFilter;
+import com.example.jwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,26 +14,29 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
+    private final UserRepository userRepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
 
         // 세션방식 사용x
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+        http
                 .addFilter(corsFilter)
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .formLogin().disable()
                 .httpBasic().disable() // 기본 인증방식 사용x
+                // 필터 등록 WebSecurityConfigurerAdapter가 authenticationManager를 들고 있음
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
                 .authorizeHttpRequests()
-                .antMatchers("api/v1/user/**", "api/v1/manager/**", "api/vi/admin/**").hasRole("ROLE_USER")
-                .antMatchers("api/v1/manager/**", "api/vi/admin/**").hasRole("ROLE_MANGER")
-                .antMatchers("api/vi/admin/**").hasRole("ROLE_ADMIN")
-                .anyRequest()
-                .permitAll();
+                .antMatchers("/api/v1/user/**").hasRole("ROLE_USER")
+                .antMatchers("/api/v1/user/**", "/api/v1/manager/**").hasRole("ROLE_MANGER")
+                .antMatchers("/api/v1/user/**", "/api/v1/manager/**", "/api/vi/admin/**").hasRole("ROLE_ADMIN")
+                .anyRequest().permitAll();
     }
 }
