@@ -35,7 +35,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     // 인증 요청시에 실행되는 함수 -> /login
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request,
+                                                HttpServletResponse response) throws AuthenticationException {
 
         ObjectMapper om = new ObjectMapper();
         UserLoginRequestDto userLoginRequestDto = null;
