@@ -1,4 +1,4 @@
-package com.example.jwt.model;
+package com.example.jwt.domain.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

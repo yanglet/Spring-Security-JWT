@@ -20,3 +20,12 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
+
+jwt:
+  secret: c2VjdXJpdHktand0LXlhbmdsZXQ=
+
+  accessToken:
+    validity: 600000
+
+  refreshToken:
+    validity: 3000000

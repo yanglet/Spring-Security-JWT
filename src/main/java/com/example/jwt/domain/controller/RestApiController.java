@@ -1,7 +1,7 @@
-package com.example.jwt.controller;
+package com.example.jwt.domain.controller;
 
-import com.example.jwt.model.User;
-import com.example.jwt.repository.UserRepository;
+import com.example.jwt.domain.repository.UserRepository;
+import com.example.jwt.domain.model.User;
 import com.example.jwt.security.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;

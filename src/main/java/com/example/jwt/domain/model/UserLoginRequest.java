@@ -1,9 +1,9 @@
-package com.example.jwt.model;
+package com.example.jwt.domain.model;
 
 import lombok.Data;
 
 @Data
-public class UserLoginRequestDto {
+public class UserLoginRequest {
     private String username;
     private String password;
 }
