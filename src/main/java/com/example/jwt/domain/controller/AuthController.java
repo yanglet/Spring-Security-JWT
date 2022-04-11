@@ -6,14 +6,17 @@ import com.example.jwt.domain.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public UserLoginResponse login(@RequestBody UserLoginRequest userLoginRequest){
-        return authService.login(userLoginRequest);
+    public UserLoginResponse login(@RequestBody UserLoginRequest userLoginRequest,
+                                   HttpServletResponse response){
+        return authService.login(userLoginRequest, response);
     }
 
     @GetMapping("/accessToken")

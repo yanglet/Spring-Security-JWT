@@ -2,6 +2,7 @@ package com.example.jwt.security.auth;
 
 import com.example.jwt.domain.model.User;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Getter
+@Slf4j
 public class PrincipalDetails implements UserDetails {
 
     private User user;
@@ -19,6 +21,7 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        log.info("PrincipalDetails.getAuthorities()");
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
         user.getRoleList().forEach( r -> {
